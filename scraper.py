@@ -148,10 +148,10 @@ def convert(value):
 
 def main(ticker):
 
-    df = pd.DataFrame()
+    # Extract and Save Today's Date
     today = date.today()
     convert = today.strftime("%m/%d/%y")
-    date_processed = {"Date Processed": convert}
+    result = {"Date Processed": convert}
     
     summary = parse_summary(ticker)
 
@@ -159,9 +159,16 @@ def main(ticker):
 
     calculations = calculate(summary, balance_sheet)
 
-    result = merge_dict(date_processed, summary)
-    result = merge_dict(result, balance_sheet)
-    result = merge_dict(result, calculations)
+    processed_dicts = [summary, balance_sheet, calculations]
+
+    # Merge Dictionaries and Prepare for Export
+    for item in processed_dicts:
+        result = merge_dict(result, item)
+
+    # Merge Dictionaries and Prepare for Export
+    # result = merge_dict(date_processed, summary)
+    # result = merge_dict(result, balance_sheet)
+    # result = merge_dict(result, calculations)
 
     df = pd.DataFrame(result, index=[0])
 
