@@ -127,7 +127,9 @@ def calculate(summary, balance_sheet):
 
     price_to_asset = convert(summary["Previous Close"]) / book_value_share 
 
-    calculations_summary = OrderedDict({"Book Value": book_value, "Book Value per Share": book_value_share, "Price to Book Value Ratio": price_to_asset})
+    asset_to_liability = convert(balance_sheet["Total Assets"]) / convert(balance_sheet["Total Liabilities Net Minority Interest"]) 
+
+    calculations_summary = OrderedDict({"Book Value": book_value, "Book Value per Share": book_value_share, "Price to Book Value Ratio": price_to_asset, "Asset to Liabilities": asset_to_liability})
 
     return calculations_summary
 
@@ -146,8 +148,7 @@ Strip Commas from Value and Convert to Float
 def convert(value):
     return float(value.replace(',',''))
 
-def main(ticker):
-
+def process(ticker):
     # Extract and Save Today's Date
     today = date.today()
     convert = today.strftime("%m/%d/%y")
@@ -165,14 +166,7 @@ def main(ticker):
     for item in processed_dicts:
         result = merge_dict(result, item)
 
-    # Merge Dictionaries and Prepare for Export
-    # result = merge_dict(date_processed, summary)
-    # result = merge_dict(result, balance_sheet)
-    # result = merge_dict(result, calculations)
-
     df = pd.DataFrame(result, index=[0])
-
-    print(df)
 
     # Exporting DataFrame to CSV File
     file_out = "%s.csv" % (ticker)
@@ -183,16 +177,23 @@ def main(ticker):
     else:
         df.to_csv(file_out, index = False)
 
+def main(ticker):
+
+    if isinstance(ticker, list):
+        for item in ticker:
+            process(item)
+    else:
+        process(ticker)
 
 if __name__ == "__main__":
 
     #Argument Parser
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('ticker', help = 'Ticker Symbol for a Stock')
+    argparser.add_argument('ticker', help = 'Ticker Symbol(s) for a Stock')
     args = argparser.parse_args()
 
     #Ticker Symbol
     ticker = args.ticker
 
     print("Fetching data for %s" % (ticker))
-    scraped_data = main(ticker)
+    main(ticker)
