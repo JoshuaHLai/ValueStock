@@ -2,12 +2,11 @@
 # Web Scraper for Yahoo Finance
 
 import os.path
+import sys
 
 from lxml import html
 import requests
 import urllib3
-
-import argparse
 
 from collections import OrderedDict
 import csv
@@ -118,7 +117,7 @@ def parse_balance_sheet(ticker):
 '''
 Calculate Book Value and Other Statistics
 '''
-def calculate(summary, balance_sheet):
+def calculate(ticker, summary, balance_sheet):
 
     print("Calculating Statistics for %s" % (ticker))
 
@@ -148,6 +147,10 @@ Strip Commas from Value and Convert to Float
 def convert(value):
     return float(value.replace(',',''))
 
+'''
+Core Process
+Call Functions to Scrape/Merge Data and Export
+'''
 def process(ticker):
     # Extract and Save Today's Date
     today = date.today()
@@ -158,7 +161,7 @@ def process(ticker):
 
     balance_sheet = parse_balance_sheet(ticker)
 
-    calculations = calculate(summary, balance_sheet)
+    calculations = calculate(ticker, summary, balance_sheet)
 
     processed_dicts = [summary, balance_sheet, calculations]
 
@@ -179,21 +182,18 @@ def process(ticker):
 
 def main(ticker):
 
-    if isinstance(ticker, list):
+    if len(ticker) > 1:
         for item in ticker:
+            print("Fetching data for %s" % (item))
             process(item)
     else:
-        process(ticker)
+        print("Fetching data for %s" % (ticker[0]))
+        process(ticker[0])
 
 if __name__ == "__main__":
 
-    #Argument Parser
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument('ticker', help = 'Ticker Symbol(s) for a Stock')
-    args = argparser.parse_args()
+    # Grab Arguments
+    arg_len = len(sys.argv)
+    ticker = sys.argv[1: arg_len]
 
-    #Ticker Symbol
-    ticker = args.ticker
-
-    print("Fetching data for %s" % (ticker))
     main(ticker)
