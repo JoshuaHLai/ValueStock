@@ -176,9 +176,9 @@ def process(ticker):
     print("Exporting to %s.csv" % (ticker))
     if os.path.exists(file_out) == True:
         with open(file_out, 'a') as f:
-            df.to_csv(f, header = False, index = False)
+            df.to_csv(f, header = False, index = False, line_terminator = '\n')
     else:
-        df.to_csv(file_out, index = False)
+        df.to_csv(file_out, index = False, line_terminator = '\n')
 
 def main(ticker):
 

@@ -1,0 +1,1 @@
+python scraper.py ULTA MSFT AAPL
