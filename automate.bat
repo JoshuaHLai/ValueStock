@@ -1,1 +1,1 @@
-python scraper.py ULTA MSFT AAPL
+python scraper.py ULTA MSFT AAPL TSLA NVDA SPOT JPM
