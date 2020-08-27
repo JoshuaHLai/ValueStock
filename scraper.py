@@ -94,7 +94,10 @@ def parse_balance_sheet(ticker):
         
         for element in data:
 
-            (text,) = element.xpath('.//span/text()[1]')
+            try:    
+                (text,) = element.xpath('.//span/text()[1]')
+            except ValueError:
+                (text,) = ("N/A",)
 
             extracted_data.append(text)
             if len(extracted_data) == 2:
