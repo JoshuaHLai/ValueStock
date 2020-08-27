@@ -175,7 +175,7 @@ def process(ticker):
     df = pd.DataFrame(result, index=[0])
 
     # Exporting DataFrame to CSV File
-    file_out = "%s.csv" % (ticker)
+    file_out = "Data/%s.csv" % (ticker)
     print("Exporting to %s.csv" % (ticker))
     if os.path.exists(file_out) == True:
         with open(file_out, 'a') as f:
