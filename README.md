@@ -13,5 +13,6 @@ As of now, only a small part of the pipeline has been developed. Over time, ther
 ## Future Work
 There are features that still need to be implemented to improve the overall package
 1. Develop batch/shell script in order to automate scraping at end-of-day and pipe output to Tableau
+2. Develop dashboard for viewing
 
 Note: name is tenative and is subject to change
