@@ -10,6 +10,10 @@ As of now, only a small part of the pipeline has been developed. Over time, ther
 - Python file to scrape web date from Yahoo! Finance based on inputted ticker symbol(s)
 - Output data and statistics to a .csv file
 
+### automate.bat
+- Batch file to run scraper.py with multiple tickers
+- Input needed: ticker(s)
+
 ## Future Work
 There are features that still need to be implemented to improve the overall package
 1. Develop batch/shell script in order to automate scraping at end-of-day and pipe output to Tableau
